@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container } from 'react-bootstrap';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { NewNote } from './assets/Components/NewNote';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export type Note = {
+  id: string;
+} & NoteData;
 
+export type NoteData = {
+  title: string;
+  markdown: string;
+  tags: Tag[];
+};
+
+export type Tag = {
+  id: string;
+  label: string;
+};
+
+export const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+    <Container
+      className="my-4 p-4"
+      style={{
+        backgroundColor: '#f9f9ed',
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+      }}
+    >
+      <Routes>
+        <Route path="/" element={<h1>Home</h1>} />
+        <Route path="/new" element={<NewNote />} />
+        <Route path="/:id">
+          <Route index element={<h1>Show</h1>} />
+          <Route path="edit" element={<h1>Edit</h1>} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Container>
+  );
+};
