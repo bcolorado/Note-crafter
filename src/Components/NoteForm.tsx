@@ -1,16 +1,17 @@
 import { FormEvent, useRef, useState } from 'react';
 import { Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { NoteData, Tag } from '../../App';
+import { NoteData, Tag } from '../App';
 import CreateTableReactSelect from 'react-select/creatable';
 
 type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
 };
 
-export const NoteForm = ({onSubmit}: NoteFormProps) => {
+export const NoteForm = ({ onSubmit }: NoteFormProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -18,9 +19,9 @@ export const NoteForm = ({onSubmit}: NoteFormProps) => {
     onSubmit({
       title: titleRef.current!.value,
       markdown: markdownRef.current!.value,
-      tags: []
-    })
-  }
+      tags: [],
+    });
+  };
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -29,14 +30,29 @@ export const NoteForm = ({onSubmit}: NoteFormProps) => {
           <Col>
             <Form.Group controlId="title" className="mb-3">
               <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter title" required ref={titleRef} />
+              <Form.Control
+                type="text"
+                placeholder="Enter title"
+                required
+                ref={titleRef}
+              />
             </Form.Group>
           </Col>
 
           <Col>
             <Form.Group controlId="tags" className="mb-3">
               <Form.Label>Title</Form.Label>
-              <CreateTableReactSelect isMulti />
+              <CreateTableReactSelect
+                value={selectedTags.map((tag) => {
+                  return { label: tag.label, value: tag.id };
+                })}
+                onChange={setSelectedTags(
+                  tags.map((tag) => {
+                    return { label: tag.label, value: tag.value };
+                  })
+                )}
+                isMulti
+              />
             </Form.Group>
           </Col>
         </Row>
