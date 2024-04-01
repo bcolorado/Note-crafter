@@ -3,12 +3,19 @@ import { Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { NoteData, Tag } from '../App';
 import CreateTableReactSelect from 'react-select/creatable';
+import { v4 as uuidV4 } from 'uuid';
 
 type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
+  onAddTag: (tag: Tag) => void;
+  availableTags: Tag[];
 };
 
-export const NoteForm = ({ onSubmit }: NoteFormProps) => {
+export const NoteForm = ({
+  onSubmit,
+  onAddTag,
+  availableTags,
+}: NoteFormProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
@@ -19,7 +26,7 @@ export const NoteForm = ({ onSubmit }: NoteFormProps) => {
     onSubmit({
       title: titleRef.current!.value,
       markdown: markdownRef.current!.value,
-      tags: [],
+      tags: selectedTags,
     });
   };
 
@@ -43,14 +50,24 @@ export const NoteForm = ({ onSubmit }: NoteFormProps) => {
             <Form.Group controlId="tags" className="mb-3">
               <Form.Label>Title</Form.Label>
               <CreateTableReactSelect
+                onCreateOption={(label) => {
+                  const newTag = { id: uuidV4(), label };
+                  onAddTag(newTag);
+                  setSelectedTags((prev) => [...prev, newTag]);
+                }}
                 value={selectedTags.map((tag) => {
                   return { label: tag.label, value: tag.id };
                 })}
-                onChange={setSelectedTags(
-                  tags.map((tag) => {
-                    return { label: tag.label, value: tag.value };
-                  })
-                )}
+                options={availableTags.map((tag) => {
+                  return { label: tag.label, value: tag.id };
+                })}
+                onChange={(tags) => {
+                  setSelectedTags(
+                    tags.map((tag) => {
+                      return { label: tag.label, id: tag.value };
+                    })
+                  );
+                }}
                 isMulti
               />
             </Form.Group>
