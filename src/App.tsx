@@ -1,11 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { NewNote } from './Components/NewNote';
-import { v4 as uuidV4 } from 'uuid';
-import './App.css';
+import { NewNote } from './Components/NewNote/NewNote';
 import { useLocalStorage } from './Hooks/useLocalStorage';
 import { useMemo } from 'react';
+import { v4 as uuidV4 } from 'uuid';
+import './Styles/App.css';
 
 export type Note = {
   id: string;
