@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { NewNote } from './Components/NewNote/NewNote';
 import { useLocalStorage } from './Hooks/useLocalStorage';
 import { useMemo } from 'react';
+import { NoteList } from './Components/Home/NoteList';
 import { v4 as uuidV4 } from 'uuid';
 import './Styles/App.css';
 
@@ -71,7 +72,7 @@ export const App = () => {
       }}
     >
       <Routes>
-        <Route path="/" element={<h1>Home</h1>} />
+        <Route path="/" element={<NoteList notes={notesWithTags} availableTags={tags}/>} />
         <Route
           path="/new"
           element={
