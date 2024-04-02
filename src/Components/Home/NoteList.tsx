@@ -33,6 +33,8 @@ export const NoteList = ({ availableTags, notes }: NoteListProp) => {
     });
   }, [title, selectedTags, notes]);
 
+//   console.log(filteredNotes);
+
   return (
     <>
       <Row className='align-items-center mb-4'>
