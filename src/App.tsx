@@ -102,10 +102,11 @@ export const App = () => {
 
   return (
     <Container
-      className='my-4 p-4'
+      className='my-4 p-4 rounded'
       style={{
-        backgroundColor: '#f9f9ed',
-        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+        backgroundColor: '#fffcf7',
+        //f9f9ed, fffcf7, 
+        boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
       }}
     >
       <Routes>

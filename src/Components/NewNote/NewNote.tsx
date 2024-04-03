@@ -1,5 +1,6 @@
 import { NoteData, Tag } from '../../App';
 import { NoteForm } from './NoteForm';
+import { Title } from '../utils/Title';
 
 type NewNoteProps = {
   onSubmit: (data: NoteData) => void;
@@ -14,7 +15,7 @@ export const NewNote = ({
 }: NewNoteProps) => {
   return (
     <>
-      <h1 className="mb-4">New Note</h1>
+      <Title title='New Note'/>
       <NoteForm
         onSubmit={onSubmit}
         onAddTag={onAddTag}

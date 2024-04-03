@@ -38,7 +38,7 @@ export const NoteForm = ({
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className='mt-4'>
       <Stack gap={4}>
         <Row>
           <Col>

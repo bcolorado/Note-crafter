@@ -1,9 +1,21 @@
 import { useMemo, useState } from 'react';
-import {Badge, Button, Card, Col, Form, Modal, Row, Stack, } from 'react-bootstrap';
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Form,
+  Modal,
+  Row,
+  Stack,
+  Image,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactSelect from 'react-select';
 import { Tag } from '../../App';
 import styles from '../../Styles/NoteList.module.css';
+import { Title } from '../utils/Title';
+import noteless from '../../assets/noteless.svg';
 
 type SimplifiedNote = {
   tags: Tag[];
@@ -53,7 +65,7 @@ export function NoteList({
     <>
       <Row className='align-items-center mb-4'>
         <Col>
-          <h1>Notes</h1>
+          <Title title='My Notes' />
         </Col>
         <Col xs='auto'>
           <Stack gap={2} direction='horizontal'>
@@ -104,13 +116,25 @@ export function NoteList({
           </Col>
         </Row>
       </Form>
-      <Row xs={1} sm={2} lg={3} xl={4} className='g-3'>
+
+      <Row  className='g-3'>
+        {filteredNotes.length === 0 && (
+          <Col xs={12}>
+            <Stack
+              gap={2}
+              className='justify-content-center align-items-center'
+            >
+              <Image src={noteless} alt='No notes' width={300} />
+            </Stack>
+          </Col>
+        )}
         {filteredNotes.map((note) => (
           <Col key={note.id}>
             <NoteCard id={note.id} title={note.title} tags={note.tags} />
           </Col>
         ))}
       </Row>
+
       <EditTagsModal
         onUpdateTag={onUpdateTag}
         onDeleteTag={onDeleteTag}
