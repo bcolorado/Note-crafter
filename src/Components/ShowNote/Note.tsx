@@ -7,7 +7,7 @@ type NoteProps = {
   onDelete: (id: string) => void
 }
 
-export function Note() {
+export function Note({onDelete}:NoteProps) {
   const note = useNote()
   const navigate = useNavigate()
 
@@ -33,7 +33,7 @@ export function Note() {
             </Link>
             <Button
               onClick={() => {
-                // onDelete(note.id)
+                onDelete(note.id)
                 navigate("/")
               }}
               variant="outline-danger"
