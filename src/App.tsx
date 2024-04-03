@@ -9,6 +9,7 @@ import { v4 as uuidV4 } from 'uuid';
 import './Styles/App.css';
 import { Note } from './Components/ShowNote/Note';
 import { NoteLayout } from './Components/ShowNote/NoteLayout';
+import { EditNote } from './Components/ShowNote/EditNote';
 
 export type Note = {
   id: string;
@@ -40,10 +41,13 @@ export const App = () => {
   const [tags, setTags] = useLocalStorage<Tag[]>('TAGS', []);
 
   const notesWithTags = useMemo(() => {
-    return notes.map(note => {
-      return { ...note, tags: tags.filter(tag => note.tagIds.includes(tag.id)) }
-    })
-  }, [notes, tags])
+    return notes.map((note) => {
+      return {
+        ...note,
+        tags: tags.filter((tag) => note.tagIds.includes(tag.id)),
+      };
+    });
+  }, [notes, tags]);
 
   function onCreateNote({ tags, ...data }: NoteData) {
     setNotes((prevNotes) => {
@@ -54,6 +58,18 @@ export const App = () => {
     });
   }
 
+  function onUpdateNote(id: string, { tags, ...data }: NoteData) {
+    setNotes(prevNotes => {
+      return prevNotes.map(note => {
+        if (note.id === id) {
+          return { ...note, ...data, tagIds: tags.map(tag => tag.id) }
+        } else {
+          return note
+        }
+      })
+    })
+  }
+
   function addTag(tag: Tag) {
     setTags((prevTags) => {
       return [...prevTags, tag];
@@ -62,16 +78,19 @@ export const App = () => {
 
   return (
     <Container
-      className="my-4 p-4"
+      className='my-4 p-4'
       style={{
         backgroundColor: '#f9f9ed',
         boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
       }}
     >
       <Routes>
-        <Route path="/" element={<NoteList notes={notesWithTags} availableTags={tags}/>} />
         <Route
-          path="/new"
+          path='/'
+          element={<NoteList notes={notesWithTags} availableTags={tags} />}
+        />
+        <Route
+          path='/new'
           element={
             <NewNote
               onSubmit={onCreateNote}
@@ -80,11 +99,20 @@ export const App = () => {
             />
           }
         />
-        <Route path="/:id" element={<NoteLayout notes={notesWithTags}/>}>
-          <Route index element={<Note/>} />
-          <Route path="edit" element={<h1>Edit</h1>} />
+        <Route path='/:id' element={<NoteLayout notes={notesWithTags} />}>
+          <Route index element={<Note />} />
+          <Route
+            path='edit'
+            element={
+              <EditNote
+                onSubmit={onUpdateNote}
+                onAddTag={addTag}
+                availableTags={tags}
+              />
+            }
+          />
         </Route>
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </Container>
   );
