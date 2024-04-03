@@ -9,6 +9,7 @@ import {
   Row,
   Stack,
   Image,
+  Container,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactSelect from 'react-select';
@@ -117,17 +118,13 @@ export function NoteList({
         </Row>
       </Form>
 
+      {filteredNotes.length === 0 && (
+        <div className='d-flex justify-content-center align-items-center'>
+          <Image src={noteless} alt='No notes' width={300} />
+        </div>
+      )}
+
       <Row xs={1} sm={2} lg={3} xl={4} className='g-3'>
-        {filteredNotes.length === 0 && (
-          <Col xs={12}>
-            <Stack
-              gap={2}
-              className='justify-content-center align-items-center'
-            >
-              <Image src={noteless} alt='No notes' width={300} />
-            </Stack>
-          </Col>
-        )}
         {filteredNotes.map((note) => (
           <Col key={note.id}>
             <NoteCard id={note.id} title={note.title} tags={note.tags} />
