@@ -117,7 +117,7 @@ export function NoteList({
         </Row>
       </Form>
 
-      <Row  className='g-3'>
+      <Row xs={1} sm={2} lg={3} xl={4} className='g-3'>
         {filteredNotes.length === 0 && (
           <Col xs={12}>
             <Stack
