@@ -59,21 +59,21 @@ export const App = () => {
   }
 
   function onUpdateNote(id: string, { tags, ...data }: NoteData) {
-    setNotes(prevNotes => {
-      return prevNotes.map(note => {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note) => {
         if (note.id === id) {
-          return { ...note, ...data, tagIds: tags.map(tag => tag.id) }
+          return { ...note, ...data, tagIds: tags.map((tag) => tag.id) };
         } else {
-          return note
+          return note;
         }
-      })
-    })
+      });
+    });
   }
 
   function onDeleteNote(id: string) {
-    setNotes(prevNotes => {
-      return prevNotes.filter(note => note.id !== id)
-    })
+    setNotes((prevNotes) => {
+      return prevNotes.filter((note) => note.id !== id);
+    });
   }
 
   function addTag(tag: Tag) {
@@ -83,62 +83,78 @@ export const App = () => {
   }
 
   function updateTag(id: string, label: string) {
-    setTags(prevTags => {
-      return prevTags.map(tag => {
+    setTags((prevTags) => {
+      return prevTags.map((tag) => {
         if (tag.id === id) {
-          return { ...tag, label }
+          return { ...tag, label };
         } else {
-          return tag
+          return tag;
         }
-      })
-    })
+      });
+    });
   }
 
   function deleteTag(id: string) {
-    setTags(prevTags => {
-      return prevTags.filter(tag => tag.id !== id)
-    })
+    setTags((prevTags) => {
+      return prevTags.filter((tag) => tag.id !== id);
+    });
   }
 
   return (
-    <Container
-      className='my-4 p-4 rounded'
+    <div
       style={{
-        backgroundColor: '#fffcf7',
-        //f9f9ed, fffcf7, 
-        boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+        display: 'flex',
+        justifyContent: 'center',
+        marginLeft: '1rem',
+        marginRight: '1rem',
       }}
     >
-      <Routes>
-        <Route
-          path='/'
-          element={<NoteList notes={notesWithTags} availableTags={tags} onUpdateTag={updateTag} onDeleteTag={deleteTag} />}
-        />
-        <Route
-          path='/new'
-          element={
-            <NewNote
-              onSubmit={onCreateNote}
-              onAddTag={addTag}
-              availableTags={tags}
-            />
-          }
-        />
-        <Route path='/:id' element={<NoteLayout notes={notesWithTags} />}>
-          <Route index element={<Note onDelete={onDeleteNote} />} />
+      <Container
+        className='my-4 p-4 rounded'
+        style={{
+          backgroundColor: '#fffcf7',
+          //f9f9ed, fffcf7,
+          boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.2)',
+        }}
+      >
+        <Routes>
           <Route
-            path='edit'
+            path='/'
             element={
-              <EditNote
-                onSubmit={onUpdateNote}
+              <NoteList
+                notes={notesWithTags}
+                availableTags={tags}
+                onUpdateTag={updateTag}
+                onDeleteTag={deleteTag}
+              />
+            }
+          />
+          <Route
+            path='/new'
+            element={
+              <NewNote
+                onSubmit={onCreateNote}
                 onAddTag={addTag}
                 availableTags={tags}
               />
             }
           />
-        </Route>
-        <Route path='*' element={<Navigate to='/' />} />
-      </Routes>
-    </Container>
+          <Route path='/:id' element={<NoteLayout notes={notesWithTags} />}>
+            <Route index element={<Note onDelete={onDeleteNote} />} />
+            <Route
+              path='edit'
+              element={
+                <EditNote
+                  onSubmit={onUpdateNote}
+                  onAddTag={addTag}
+                  availableTags={tags}
+                />
+              }
+            />
+          </Route>
+          <Route path='*' element={<Navigate to='/' />} />
+        </Routes>
+      </Container>
+    </div>
   );
 };

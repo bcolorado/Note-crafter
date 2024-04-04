@@ -50,13 +50,16 @@ export const NoteForm = ({
                 required
                 ref={titleRef}
                 defaultValue={title}
+                style={{maxWidth: '30rem'}}
               />
             </Form.Group>
           </Col>
 
           <Col>
             <Form.Group controlId="tags" className="mb-3">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>Tags</Form.Label>
+              <div style={{maxWidth: '30rem'}}>
+
               <CreateTableReactSelect
                 onCreateOption={(label) => {
                   const newTag = { id: uuidV4(), label };
@@ -78,6 +81,7 @@ export const NoteForm = ({
                 }}
                 isMulti
               />
+              </div>
             </Form.Group>
           </Col>
         </Row>
